@@ -3,7 +3,7 @@ export const LoginSchema = {
     schema: {
       type: 'object',
       properties: {
-        username: { type: 'string', example: 'Nome' },
+        email: { type: 'string', example: 'abc@email.com' },
         password: { type: 'string', example: '12345' },
       }
     },

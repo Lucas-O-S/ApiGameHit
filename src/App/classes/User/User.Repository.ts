@@ -41,7 +41,7 @@ export class UserRepository {
     async verifyLogin(dto : LoginDto) : Promise<UserModel>{
         return await this.model.findOne({
             where : {
-                username : dto.username,
+                email : dto.email,
             }
         })
     }

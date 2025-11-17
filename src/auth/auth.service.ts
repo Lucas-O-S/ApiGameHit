@@ -20,7 +20,7 @@ export class AuthService {
         if(!validPassword) 
             throw new Error("Senha Incorreta!")
 
-        const payload = { username: user.username, sub: user.id };
+        const payload = { username: user.email, sub: user.id };
         return {
             access_token: this.jwtService.sign(payload),
         };
