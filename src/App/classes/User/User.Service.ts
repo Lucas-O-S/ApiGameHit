@@ -10,17 +10,20 @@ export class UserService {
 
     constructor( private readonly repository : UserRepository ){}
 
-    async create(model : UserDto) : Promise<UserModel>{
+    async create(dto : UserDto) : Promise<UserModel>{
+        this.repository.verifyRepeatedEmail(dto);
 
-
-        return await this.repository.create(model);
+        return await this.repository.create(dto);
         
     }
 
-    async update(model : UserDto, id : number) : Promise<boolean>{
+    async update(dto : UserDto, id : number) : Promise<boolean>{
         
+        this.repository.verifyRepeatedEmail(dto, id);
 
-        return await this.repository.update(model, id);
+        if (this.repository.exists(id)) throw new Error("Não existe este registro no banco");
+
+        return await this.repository.update(dto, id);
         
     }
 
@@ -29,7 +32,7 @@ export class UserService {
         
         const user = await this.repository.get(id);
 
-        if (!user) throw new Error("User não encontrado");
+        if (!user) throw new Error("Usuario não encontrado");
 
         return user
 
@@ -43,7 +46,7 @@ export class UserService {
 
     async delete(id : number) : Promise<Boolean>{
         
-        if (!(await this.repository.get(id))) throw new Error("Não existe este registro no banco");
+        if (this.repository.exists(id)) throw new Error("Não existe este registro no banco");
         
         return await this.repository.delete(id);
     }

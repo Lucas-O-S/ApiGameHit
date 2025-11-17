@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { UserModel } from "../../Model/User.Model";
 import { InjectModel } from "@nestjs/sequelize";
 import { UserDto } from "./dto/User.dto";
-import { where } from "sequelize";
+import { Op, where } from "sequelize";
 import { LoginDto } from "src/auth/dto/login.dto";
 
 
@@ -12,13 +12,14 @@ export class UserRepository {
     constructor( @InjectModel(UserModel) private readonly model  : typeof UserModel ){}
 
     async create(dto : UserDto) : Promise<UserModel>{
+
         const user = await this.model.create(dto);
         user.setDataValue("password", undefined);
         return user;
     }
 
     async update(dto : UserDto, id : number) : Promise<boolean>{
-        
+    
         const [affectedRows] = await this.model.update(dto, {where: {id: id} });
         return affectedRows > 0;
     }
@@ -64,6 +65,28 @@ export class UserRepository {
             });
         
         }
+    }
+
+    async exist(id){
+
+    }
+
+    async verifyRepeatedEmail(dto : UserDto, id = null){
+
+        if (id){
+            if(await this.model.findOne({where : {email :dto.email}}))
+                throw new Error("Email já cadastrado no sistema")
+        }
+        else
+            if(await this.model.findOne({where : {
+                email :dto.email,
+                id: { [Op.not]: id }
+            }}))
+                throw new Error("Email já cadastrado no sistema")
+    }
+
+    async exists (id) : Promise<boolean>{
+        return (await this.model.findByPk(id)) != null;
     }
 
 }

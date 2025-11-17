@@ -33,7 +33,7 @@ BEGIN
         id INT IDENTITY(1,1) PRIMARY KEY,
         username VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
         password VARCHAR(255)  COLLATE Latin1_General_CS_AS NOT NULL,
-        email VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
         userImage VARBINARY(MAX) NULL,
         roleId INT NOT NULL DEFAULT 2,
         FOREIGN KEY (roleId) REFERENCES tb_Role(id)
