@@ -17,6 +17,7 @@ export class UserController {
 
     @Post()
     @ApiConsumes('multipart/form-data')
+    @ApiQuery({ name: 'BuscaImagem', required: false, type: Boolean, description: 'Se falso, não retorna a imagem, padrão é falso' })
     @ApiBody(UserSchema)
     @ApiResponse({status: 201, description: "usuario criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
@@ -58,6 +59,7 @@ export class UserController {
     async update(
         @Param("id", ParseIntPipe) id : number,
         @Body() dto: UserDto,
+        
         @UploadedFile() file: Express.Multer.File
     ) : Promise<ApiResponseInterface> {
         try{
@@ -83,16 +85,18 @@ export class UserController {
     }
 
     @Get(":id/")
+    @ApiQuery({ name: 'BuscaImagem', required: false, type: Boolean, description: 'Se falso, não retorna a imagem, padrão é verdadeiro' })
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiResponse({status: 200, description: "usuario criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async get(
         @Param("id", ParseIntPipe) id : number,
+        @Query("BuscaImagem", new DefaultValuePipe(true), ParseBoolPipe) getImage : boolean,
     ) : Promise<ApiResponseInterface>{
         try{
 
-            const result = await this.service.get(id);
+            const result = await this.service.get(id, getImage);
 
             return {
                 status: 200,
@@ -111,14 +115,17 @@ export class UserController {
     }
 
     @Get()
+    @ApiQuery({ name: 'BuscaImagem', required: false, type: Boolean, description: 'Se falso, não retorna a imagem, padrão é falso' })
     @UseGuards(JwtAuthGuard)
     @ApiBearerAuth()
     @ApiResponse({status: 200, description: "Busca Concluida."})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    async getAll() : Promise<ApiResponseInterface> {
+    async getAll(
+        @Query("BuscaImagem", new DefaultValuePipe(false), ParseBoolPipe) getImage : boolean,
+    ) : Promise<ApiResponseInterface> {
         try{
 
-            const result = await this.service.getAll();
+            const result = await this.service.getAll(getImage);
 
             return {
                 status: 200,

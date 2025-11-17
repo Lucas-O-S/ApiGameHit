@@ -24,12 +24,20 @@ export class UserRepository {
         return affectedRows > 0;
     }
     
-    async get(id : number) : Promise<UserModel>{
-        return this.model.findByPk(id, {attributes : {exclude: ['password']}});
+    async get(id : number, getImage = true) : Promise<UserModel>{
+        return (getImage) ? 
+            await this.model.findByPk(id, {attributes : {exclude: ['password']}}) :
+            await this.model.findByPk(id, {attributes : {exclude: ['password', "userImage"]}});
+
+
     }
 
-    async getAll() : Promise<UserModel[]>{
-        return this.model.findAll({attributes : {exclude: ['password']}} );
+    async getAll(getImage = false) : Promise<UserModel[]>{
+        return (getImage) ? 
+         this.model.findAll({attributes : {exclude: ['password']}} ) :
+        await this.model.findAll({attributes : {exclude: ['password', "userImage"]}});
+
+
     }
 
     

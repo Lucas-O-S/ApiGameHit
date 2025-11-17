@@ -27,20 +27,20 @@ export class UserService {
         
     }
 
-    async get(id : number) : Promise<UserModel>{
+    async get(id : number, getImage = true) : Promise<UserModel>{
         
         
-        const user = await this.repository.get(id);
+        const user = await this.repository.get(id, getImage);
 
         if (!user) throw new Error("Usuario não encontrado");
 
         return user
 
     }
-    async getAll() : Promise<UserModel[]>{
+    async getAll(getImage = false) : Promise<UserModel[]>{
         
 
-        return await this.repository.getAll();
+        return await this.repository.getAll(getImage);
         
     }
 

@@ -14,7 +14,7 @@ async function bootstrap() {
     .setDescription('Documentação da API com NestJS e Swagger')
     .setVersion('1.0')
     .addBearerAuth()
-    .addTag('Pizzaria Esfirraria') 
+    .addTag('GameHit api') 
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
