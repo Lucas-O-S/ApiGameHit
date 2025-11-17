@@ -1,33 +1,33 @@
 import { Injectable } from "@nestjs/common";
-import { UsuarioModel } from "../../Model/Usuario.Model";
+import { UserModel } from "../../Model/User.Model";
 import { InjectModel } from "@nestjs/sequelize";
-import { UsuarioDto } from "./dto/Usuario.dto";
+import { UserDto } from "./dto/User.dto";
 import { where } from "sequelize";
 import { LoginDto } from "src/auth/dto/login.dto";
 
 
 @Injectable()
-export class UsuarioRepository {
+export class UserRepository {
     
-    constructor( @InjectModel(UsuarioModel) private readonly model  : typeof UsuarioModel ){}
+    constructor( @InjectModel(UserModel) private readonly model  : typeof UserModel ){}
 
-    async create(dto : UsuarioDto) : Promise<UsuarioModel>{
+    async create(dto : UserDto) : Promise<UserModel>{
         const user = await this.model.create(dto);
         user.setDataValue("password", undefined);
         return user;
     }
 
-    async update(dto : UsuarioDto, id : number) : Promise<boolean>{
+    async update(dto : UserDto, id : number) : Promise<boolean>{
         
         const [affectedRows] = await this.model.update(dto, {where: {id: id} });
         return affectedRows > 0;
     }
     
-    async get(id : number) : Promise<UsuarioModel>{
+    async get(id : number) : Promise<UserModel>{
         return this.model.findByPk(id, {attributes : {exclude: ['password']}});
     }
 
-    async getAll() : Promise<UsuarioModel[]>{
+    async getAll() : Promise<UserModel[]>{
         return this.model.findAll({attributes : {exclude: ['password']}} );
     }
 
@@ -38,10 +38,10 @@ export class UsuarioRepository {
     
     }
 
-    async verifyLogin(dto : LoginDto) : Promise<UsuarioModel>{
+    async verifyLogin(dto : LoginDto) : Promise<UserModel>{
         return await this.model.findOne({
             where : {
-                name : dto.name,
+                username : dto.username,
             }
         })
     }
@@ -52,12 +52,13 @@ export class UsuarioRepository {
 
     async verifyFirstAdmExistence () {
         
-        const admin = await this.model.findOne({ where: { name: 'ADM', id : 1 }});
+        const admin = await this.model.findOne({ where: { email : "adm@email.com" }});
 
         if (!admin) {
            
             await this.model.create({
-                name: "ADM",
+                username: "ADM",
+                email : "adm@email.com" ,
                 password: "123456",
                 roleId: 1,
             });

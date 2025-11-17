@@ -26,13 +26,15 @@ END
 GO
 
 IF NOT EXISTS (
-    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Usuario'
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_User'
 )
 BEGIN
-    CREATE TABLE tb_Usuario (
+    CREATE TABLE tb_User (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        name VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
+        username VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
         password VARCHAR(255)  COLLATE Latin1_General_CS_AS NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        userImage VARBINARY(MAX) NULL,
         roleId INT NOT NULL DEFAULT 2,
         FOREIGN KEY (roleId) REFERENCES tb_Role(id)
     )

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Observable } from "rxjs";
-import { UsuarioService } from "../classes/Usuario/Usuario.Service";
+import { UserService } from "../classes/User/User.Service";
 
 
 @Injectable()
@@ -9,7 +9,7 @@ export class AdmPermissionGuard implements CanActivate{
 
     constructor (
         private readonly jwtService : JwtService,
-        private readonly  usuarioService : UsuarioService  
+        private readonly  UserService : UserService  
     ){}
 
     async canActivate(context: ExecutionContext): Promise<boolean>  {
@@ -33,7 +33,7 @@ export class AdmPermissionGuard implements CanActivate{
         }
         const userIdFromToken = decoded.sub;
 
-        const isAdm = await this.usuarioService.verifyAdm(userIdFromToken);
+        const isAdm = await this.UserService.verifyAdm(userIdFromToken);
 
         if (!isAdm)
             throw new ForbiddenException(

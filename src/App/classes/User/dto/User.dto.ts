@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, IsStrongPassword, Min, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, IsStrongPassword, Min, MinLength } from "class-validator";
 
-export class UsuarioDto {
+export class UserDto {
 
     @ApiProperty({
         description : "nome do usuario",
@@ -9,10 +9,19 @@ export class UsuarioDto {
     })
     @IsNotEmpty({message: "Nome não pode ser vazio"})
     @IsString({message: "Deve ser uma string o usuario"})
-    name: string;
+    username: string;
 
     @ApiProperty({
-        description : "senha do usuario",
+        description : "nome do User",
+        example : "Email@email"
+    })
+    @IsNotEmpty({message: "Email não pode ser vazio"})
+    @IsString({message: "Deve ser uma string o Email"})
+    @IsEmail({},{message : "Email invalido"})
+    email: string;
+
+    @ApiProperty({
+        description : "senha do User",
         example : "123456789"
     })
     @IsNotEmpty({message: "Senha não pode ser vazio"})
@@ -25,5 +34,14 @@ export class UsuarioDto {
         minSymbols: 0,    
     }, {message : "deve ter no minimo 2 caracteres a senha"})
     password: string;
+
+
+    @ApiProperty({
+        description: 'Imagem do produto',
+        type: 'string',
+        format: 'binary'
+    })
+    @IsOptional()
+    userImage?: Buffer;
 
 }

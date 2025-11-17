@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { UsuarioService } from 'src/App/classes/Usuario/Usuario.Service';
+import { UserService } from 'src/App/classes/User/User.Service';
 import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
-        private readonly userService : UsuarioService
+        private readonly userService : UserService
     ) {}
 
     public async login(dto: LoginDto) {
@@ -20,7 +20,7 @@ export class AuthService {
         if(!validPassword) 
             throw new Error("Senha Incorreta!")
 
-        const payload = { username: user.name, sub: user.id };
+        const payload = { username: user.username, sub: user.id };
         return {
             access_token: this.jwtService.sign(payload),
         };

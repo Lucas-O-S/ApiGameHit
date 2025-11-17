@@ -1,28 +1,34 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { UsuarioService } from "./Usuario.Service";
-import { UsuarioDto } from "./dto/Usuario.dto";
+import { UserService } from "./User.Service";
+import { UserDto } from "./dto/User.dto";
 import { ApiResponseInterface } from "../../Interface/ApiResponseInterface";
 import { FileInterceptor} from "@nestjs/platform-express";
-import { UsuarioSchema } from "./Schemas/UsuarioSchema";
+import { UserSchema } from "./Schemas/UserSchema";
 import { JwtAuthGuard } from "src/App/guards/JwtAuth.Guard";
 import { UserIdguard } from "src/App/guards/UserId.Guard";
+import { ImageInterceptorRules } from "src/App/Utils/ImagemFiltters";
 
-@Controller("usuario")
-@ApiTags("usuario")
-export class UsuarioController {
+@Controller("User")
+@ApiTags("User")
+export class UserController {
 
-    constructor(private readonly service: UsuarioService) {}
+    constructor(private readonly service: UserService) {}
 
     @Post()
-    @ApiBody(UsuarioSchema)
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(UserSchema)
     @ApiResponse({status: 201, description: "usuario criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
+    @UseInterceptors(ImageInterceptorRules("userImage"))
     async create(
-        @Body() dto: UsuarioDto,
+        @Body() dto: UserDto,
+        @UploadedFile() file: Express.Multer.File
     ) : Promise<ApiResponseInterface> {
         try{
-
+            
+            dto.userImage = file ? Buffer.from(file.buffer) : undefined;
+            
             const result = await this.service.create(dto);
 
             return {
@@ -42,17 +48,21 @@ export class UsuarioController {
     }
 
     @Put(":id")
-    @ApiBody(UsuarioSchema)
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(UserSchema)
     @UseGuards(JwtAuthGuard, UserIdguard)
     @ApiBearerAuth()
     @ApiResponse({status: 200, description: "usuario atualizado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
+    @UseInterceptors(ImageInterceptorRules("userImage"))
     async update(
         @Param("id", ParseIntPipe) id : number,
-         @Body() dto: UsuarioDto,
+        @Body() dto: UserDto,
+        @UploadedFile() file: Express.Multer.File
     ) : Promise<ApiResponseInterface> {
         try{
-            console.log(dto);
+
+            dto.userImage = file ? Buffer.from(file.buffer) : undefined;
 
             const result = await this.service.update(dto, id);
 
@@ -65,7 +75,7 @@ export class UsuarioController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao registrar usuario.',
+                message: 'Erro ao registrar User.',
                 error: error.message || error,
             }
 
@@ -93,7 +103,7 @@ export class UsuarioController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao buscar usuario.',
+                message: 'Erro ao buscar User.',
                 error: error.message || error,
             }
 
@@ -119,7 +129,7 @@ export class UsuarioController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao buscar usuario.',
+                message: 'Erro ao buscar User.',
                 error: error.message || error,
             }
 
@@ -149,7 +159,7 @@ export class UsuarioController {
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao deletar usuario.',
+                message: 'Erro ao deletar User.',
                 error: error.message || error,
             }
 

@@ -1,14 +1,14 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Observable } from "rxjs";
-import { UsuarioService } from "../classes/Usuario/Usuario.Service";
+import { UserService } from "../classes/User/User.Service";
 
 @Injectable()
 export class UserIdguard implements CanActivate{
 
     constructor (
         private readonly jwtService : JwtService,
-        private readonly  usuarioService : UsuarioService  
+        private readonly  UserService : UserService  
     ){}
 
     async canActivate(context: ExecutionContext): Promise<boolean>  {
@@ -38,11 +38,11 @@ export class UserIdguard implements CanActivate{
         if (isNaN(userIdParam))
             throw new ForbiddenException('ID inválido na rota.');
 
-        if(!(await this.usuarioService.get(userIdParam)))
-            throw new ForbiddenException('Usuario da rota não existe');
+        if(!(await this.UserService.get(userIdParam)))
+            throw new ForbiddenException('User da rota não existe');
             
 
-        const isAdm = await this.usuarioService.verifyAdm(userIdFromToken);
+        const isAdm = await this.UserService.verifyAdm(userIdFromToken);
 
         if (userIdFromToken !== userIdParam && !isAdm)
             throw new ForbiddenException(

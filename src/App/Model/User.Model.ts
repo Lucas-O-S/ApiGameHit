@@ -2,10 +2,10 @@ import { AllowNull, Column, DataType, Model, Table } from "sequelize-typescript"
 import * as bcrypt from "bcrypt";
 
 @Table({
-    tableName: "tb_Usuario",
+    tableName: "tb_User",
     timestamps: false
 })
-export class UsuarioModel extends Model<UsuarioModel>{
+export class UserModel extends Model<UserModel>{
     
     @Column({
         type: DataType.INTEGER,
@@ -21,7 +21,13 @@ export class UsuarioModel extends Model<UsuarioModel>{
         type: DataType.STRING(255),
         allowNull: false,
     })
-    name : string;
+    username : string;
+
+    @Column({
+        type: DataType.STRING(255),
+        allowNull: false,
+    })
+    email : string;
 
     @Column({
         type: DataType.STRING(255),
@@ -44,5 +50,11 @@ export class UsuarioModel extends Model<UsuarioModel>{
         defaultValue: 2
     })
     roleId: number;
+
+    @Column({
+        type: DataType.BLOB("long"),
+        allowNull: true
+    })
+    userImage?: Buffer;
 
 }

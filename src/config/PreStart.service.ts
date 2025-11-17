@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { UsuarioModel } from 'src/App/Model/Usuario.Model';
+import { UserModel } from 'src/App/Model/User.Model';
 import * as bcrypt from 'bcrypt';
-import { UsuarioService } from 'src/App/classes/Usuario/Usuario.Service';
+import { UserService } from 'src/App/classes/User/User.Service';
 
 @Injectable()
 export class PreStartService {
   constructor(
-    private readonly usuarioService : UsuarioService,
+    private readonly UserService : UserService,
   ) {}
 
   async createAdm() {
-    await this.usuarioService.verifyFirstAdmExistence()
+    await this.UserService.verifyFirstAdmExistence()
   }
 }

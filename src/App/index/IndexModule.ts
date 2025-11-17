@@ -1,5 +1,5 @@
 import { AuthModule } from "src/auth/auth.module";
-import { UsuarioModule } from "../classes/Usuario/Usuario.Module";
+import { UserModule } from "../classes/User/User.Module";
 import { PreStartModule } from "src/config/PreStart.module";
 
 
@@ -7,5 +7,5 @@ import { PreStartModule } from "src/config/PreStart.module";
 export const AllModules = [
     PreStartModule,
     AuthModule,
-    UsuarioModule
+    UserModule
 ]

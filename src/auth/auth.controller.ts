@@ -28,7 +28,7 @@ export class AuthController{
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao fazer login de usuario.',
+                message: 'Erro ao fazer login de User.',
                 error: error.message || error,
             }
         }
@@ -41,17 +41,17 @@ export class AuthController{
     @ApiResponse({status: 401, description: "Unauthorized"})
     async retrieveUser(@Request() req) : Promise<ApiResponseInterface>{
         try{
-            const { id, name } = req.user;
+            const { id, username } = req.user;
             return {
                 status: 200,
                 message: 'User retrieved successfully.',
-                dataUnit: { id, name },
+                dataUnit: { id, username },
             } ;
         }
         catch(error){
             return{
                 status: 500,
-                message: 'Erro ao recuperar usuario.',
+                message: 'Erro ao recuperar User.',
                 error: error.message || error,
             }
         }

@@ -1,8 +1,8 @@
 import { BadRequestException } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 
-export function ImageInterceptorRules(name: string) {
-  return FileInterceptor(name, {
+export function ImageInterceptorRules(username: string) {
+  return FileInterceptor(username, {
     limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
     fileFilter: (req, file, callback) => {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];

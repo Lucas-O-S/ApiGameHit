@@ -1,40 +1,40 @@
 import { Injectable } from "@nestjs/common";
-import { UsuarioDto } from "./dto/Usuario.dto";
-import { UsuarioRepository } from "./Usuario.Repository";
-import { UsuarioModel } from "src/App/Model/Usuario.Model";
+import { UserDto } from "./dto/User.dto";
+import { UserRepository } from "./User.Repository";
+import { UserModel } from "src/App/Model/User.Model";
 import { LoginDto } from "src/auth/dto/login.dto";
 
 
 @Injectable()
-export class UsuarioService {
+export class UserService {
 
-    constructor( private readonly repository : UsuarioRepository ){}
+    constructor( private readonly repository : UserRepository ){}
 
-    async create(model : UsuarioDto) : Promise<UsuarioModel>{
+    async create(model : UserDto) : Promise<UserModel>{
 
 
         return await this.repository.create(model);
         
     }
 
-    async update(model : UsuarioDto, id : number) : Promise<boolean>{
+    async update(model : UserDto, id : number) : Promise<boolean>{
         
 
         return await this.repository.update(model, id);
         
     }
 
-    async get(id : number) : Promise<UsuarioModel>{
+    async get(id : number) : Promise<UserModel>{
         
         
         const user = await this.repository.get(id);
 
-        if (!user) throw new Error("Usuario não encontrado");
+        if (!user) throw new Error("User não encontrado");
 
         return user
 
     }
-    async getAll() : Promise<UsuarioModel[]>{
+    async getAll() : Promise<UserModel[]>{
         
 
         return await this.repository.getAll();
@@ -48,11 +48,11 @@ export class UsuarioService {
         return await this.repository.delete(id);
     }
 
-    async verifyLogin(dto : LoginDto) : Promise<UsuarioModel>{
+    async verifyLogin(dto : LoginDto) : Promise<UserModel>{
         
         const user = await this.repository.verifyLogin(dto);
         
-        if (!user) throw new Error("Erro, usuario não encontrado");
+        if (!user) throw new Error("Erro, User não encontrado");
         
         return user;
     }

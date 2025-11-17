@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard, PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy/jwt.strategy';
-import { UsuarioModule } from 'src/App/classes/Usuario/Usuario.Module';
+import { UserModule } from 'src/App/classes/User/User.Module';
 import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from 'src/App/guards/JwtAuth.Guard';
 import { AllGuards as AllAuthGuards } from 'src/App/index/indexAuthGuards';
@@ -20,7 +20,7 @@ dotenv.config();
       secret: process.env.secret,
       signOptions: { expiresIn: '1d' },
     }),
-    forwardRef(()=> UsuarioModule)
+    forwardRef(()=> UserModule)
   ],
   providers: 
   [AuthService,

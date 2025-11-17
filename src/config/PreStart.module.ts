@@ -1,12 +1,12 @@
 import { forwardRef, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { PreStartService } from './PreStart.service';
-import { UsuarioModel } from 'src/App/Model/Usuario.Model';
-import { UsuarioModule } from 'src/App/classes/Usuario/Usuario.Module';
+import { UserModel } from 'src/App/Model/User.Model';
+import { UserModule } from 'src/App/classes/User/User.Module';
 
 @Module({
   imports: [
-    forwardRef(()=> UsuarioModule)
+    forwardRef(()=> UserModule)
   ],
   providers: [PreStartService],
 })
