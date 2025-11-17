@@ -1,4 +1,4 @@
-import { AllowNull, Column, DataType, Model, Table } from "sequelize-typescript";
+import { AllowNull, Column, DataType, Model, Table, Unique } from "sequelize-typescript";
 import * as bcrypt from "bcrypt";
 
 @Table({
@@ -26,6 +26,7 @@ export class UserModel extends Model<UserModel>{
     @Column({
         type: DataType.STRING(255),
         allowNull: false,
+        unique : true
     })
     email : string;
 
