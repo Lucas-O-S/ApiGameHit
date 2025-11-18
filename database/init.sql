@@ -43,15 +43,15 @@ END
 GO
 
 IF NOT EXISTS (
-    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Genero'
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Gender'
 )
 BEGIN
-    CREATE TABLE tb_Genero (
+    CREATE TABLE tb_Gender (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        nome VARCHAR(100) NOT NULL
+        name VARCHAR(100) NOT NULL
     );
 
-    INSERT INTO tb_Genero (nome) VALUES
+    INSERT INTO tb_Gender (name) VALUES
         ('Ação'),
         ('Aventura'),
         ('RPG'),
@@ -75,10 +75,10 @@ BEGIN
     CREATE TABLE tb_Game (
         id INT IDENTITY(1,1) PRIMARY KEY,
         name VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
-        firstReleaseDate DATE  NULL,
+        firstReleaseDate VARCHAR(10) NULL,
         cover VARBINARY(MAX) NULL,
-        genero INT NOT NULL,
-        FOREIGN KEY (genero) REFERENCES tb_Genero(id)
+        genderId INT NOT NULL,
+        FOREIGN KEY (genderId) REFERENCES tb_Gender(id)
     )
 END
 
@@ -110,8 +110,8 @@ IF NOT EXISTS (
 BEGIN
     CREATE TABLE tb_Register (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        completedDate DATE  NULL,
-        startedDate DATE NULL,
+        completedDate VARCHAR(10) NULL,
+        startedDate VARCHAR(10) NULL,
         review VARCHAR(255) NULL,
         personalRating INT NULL,
         gameId INT NOT NULL,

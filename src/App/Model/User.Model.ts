@@ -1,5 +1,6 @@
-import { AllowNull, Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import * as bcrypt from "bcrypt";
+import { RegisterModel } from "./Register.Model";
 
 @Table({
     tableName: "tb_User",
@@ -57,5 +58,8 @@ export class UserModel extends Model<UserModel>{
         allowNull: true
     })
     userImage?: Buffer;
+
+    @HasMany(() => RegisterModel)
+    items: RegisterModel[];
 
 }
