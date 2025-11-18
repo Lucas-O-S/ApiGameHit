@@ -41,3 +41,86 @@ BEGIN
 END
 
 GO
+
+IF NOT EXISTS (
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Genero'
+)
+BEGIN
+    CREATE TABLE tb_Genero (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        nome VARCHAR(100) NOT NULL
+    );
+
+    INSERT INTO tb_Genero (nome) VALUES
+        ('Ação'),
+        ('Aventura'),
+        ('RPG'),
+        ('Estratégia'),
+        ('Simulação'),
+        ('Esportes'),
+        ('Corrida'),
+        ('Terror'),
+        ('Puzzle'),
+        ('Plataforma'),
+        ('FPS'),
+        ('MMO');
+END
+
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Game'
+)
+BEGIN
+    CREATE TABLE tb_Game (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        name VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
+        firstReleaseDate DATE  NULL,
+        cover VARBINARY(MAX) NULL,
+        genero INT NOT NULL,
+        FOREIGN KEY (genero) REFERENCES tb_Genero(id)
+    )
+END
+
+
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_GameStatus'
+)
+BEGIN
+    CREATE TABLE tb_GameStatus (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        nome VARCHAR(50) NOT NULL
+    );
+
+    INSERT INTO tb_GameStatus (nome) VALUES
+        ('Completed'),
+        ('Ongoing'),
+        ('Retired'),
+        ('Replaying'),
+        ('Backlog');
+END
+
+GO
+
+IF NOT EXISTS (
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Register'
+)
+BEGIN
+    CREATE TABLE tb_Register (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        completedDate DATE  NULL,
+        startedDate DATE NULL,
+        review VARCHAR(255) NULL,
+        personalRating INT NULL,
+        gameId INT NOT NULL,
+        userId INT NOT NULL,
+        gameStatusId INT NOT NULL,
+        FOREIGN KEY (userId) REFERENCES tb_User(id),
+        FOREIGN KEY (gameId) REFERENCES tb_Game(id),
+        FOREIGN KEY (gameStatusId) REFERENCES tb_GameStatus(id)
+    )
+END
+
+GO
