@@ -59,7 +59,9 @@ export class UserModel extends Model<UserModel>{
     })
     userImage?: Buffer;
 
+    /*
     @HasMany(() => RegisterModel)
     items: RegisterModel[];
+    */
 
 }
