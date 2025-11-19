@@ -1,8 +1,9 @@
 import { GenreModel } from "src/App/Model/Genre.Model";
 import { GenreDto } from "./dto/Gender.dto";
 import { GenreRepository } from "./Genre.Repository";
+import { Injectable } from "@nestjs/common";
 
-
+@Injectable()
 export class GenreService {
 
     constructor(
@@ -10,6 +11,7 @@ export class GenreService {
     ){}
 
     async insert(dto : GenreDto) : Promise<GenreModel>{
+
         return await this.repository.insert(dto);
     }
 
@@ -22,7 +24,12 @@ export class GenreService {
     }
 
     async get(id : number) : Promise<GenreModel>{
-        return await this.repository.get(id);
+        const result = await this.repository.get(id);
+        
+        if(!result)
+            throw new Error("Genero de jogo não existe ou encontrado");
+        
+        return result;
     }
 
     
@@ -37,4 +44,4 @@ export class GenreService {
         return await this.repository.delete(id);
     }
 
-}
+} 

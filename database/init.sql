@@ -95,11 +95,11 @@ BEGIN
     );
 
     INSERT INTO tb_GameStatus (nome) VALUES
-        ('Completed'),
-        ('Ongoing'),
-        ('Retired'),
-        ('Replaying'),
-        ('Backlog');
+        ('Concluído'),
+        ('Em andamento'),
+        ('Aposentado'),
+        ('Rejogando'),
+        ('Pendência');
 END
 
 GO

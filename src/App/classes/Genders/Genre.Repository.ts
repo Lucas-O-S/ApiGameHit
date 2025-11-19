@@ -1,7 +1,6 @@
 import { GenreModel } from "src/App/Model/Genre.Model";
 import { GenreDto } from "./dto/Gender.dto";
 import { InjectModel } from "@nestjs/sequelize";
-import { promises } from "dns";
 
 
 export class GenreRepository {
