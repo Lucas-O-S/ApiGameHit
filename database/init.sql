@@ -43,15 +43,15 @@ END
 GO
 
 IF NOT EXISTS (
-    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Gender'
+    SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'tb_Genre'
 )
 BEGIN
-    CREATE TABLE tb_Gender (
+    CREATE TABLE tb_Genre (
         id INT IDENTITY(1,1) PRIMARY KEY,
         name VARCHAR(100) NOT NULL
     );
 
-    INSERT INTO tb_Gender (name) VALUES
+    INSERT INTO tb_Genre (name) VALUES
         ('Ação'),
         ('Aventura'),
         ('RPG'),
@@ -77,8 +77,8 @@ BEGIN
         name VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
         firstReleaseDate VARCHAR(10) NULL,
         cover VARBINARY(MAX) NULL,
-        genderId INT NOT NULL,
-        FOREIGN KEY (genderId) REFERENCES tb_Gender(id)
+        genreId INT NOT NULL,
+        FOREIGN KEY (genreId) REFERENCES tb_Genre(id)
     )
 END
 

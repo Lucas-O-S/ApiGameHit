@@ -1,10 +1,10 @@
 import { Column, DataType, Model, Table } from "sequelize-typescript";
 
 @Table({
-    tableName: "tb_Gender",
+    tableName: "tb_Genre",
     timestamps: false
 })
-export class GenderModel extends Model<GenderModel> {
+export class GenreModel extends Model<GenreModel> {
     
 
     @Column({

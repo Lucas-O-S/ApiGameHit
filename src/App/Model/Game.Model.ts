@@ -1,5 +1,5 @@
 import { BelongsTo, Column, DataType, Model, Table } from "sequelize-typescript";
-import { GenderModel } from "./Gender.Model";
+import { GenreModel } from "./Genre.Model";
 
 @Table({
     tableName: "tb_Game",
@@ -35,8 +35,8 @@ export class GameModel extends Model<GameModel> {
     })
     cover? : Buffer
 
-    @BelongsTo(() => GenderModel, {foreignKey : "genderId"})
-    gender : GenderModel;
+    @BelongsTo(() => GenreModel, {foreignKey : "genreId"})
+    genre : GenreModel;
 
 
     

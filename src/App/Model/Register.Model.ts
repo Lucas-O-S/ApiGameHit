@@ -1,5 +1,5 @@
 import { AllowNull, BelongsTo, Column, DataType, Model, Table } from "sequelize-typescript";
-import { GenderModel } from "./Gender.Model";
+import { GenreModel } from "./Genre.Model";
 import { UserModel } from "./User.Model";
 import { GameModel } from "./Game.Model";
 import { GameStatusModel } from "./GameStatus.Model";
