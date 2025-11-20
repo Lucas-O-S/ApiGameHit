@@ -1,5 +1,6 @@
-import { BelongsTo, Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { GenreModel } from "./Genre.Model";
+import { RegisterModel } from "./Register.Model";
 
 @Table({
     tableName: "tb_Game",
@@ -7,7 +8,6 @@ import { GenreModel } from "./Genre.Model";
 })
 export class GameModel extends Model<GameModel> {
     
-
     @Column({
         type: DataType.INTEGER,
         allowNull:false,
@@ -15,29 +15,37 @@ export class GameModel extends Model<GameModel> {
         primaryKey:true,
         unique:true
     })
-    id : number;
+    id: number;
 
     @Column({
         type: DataType.STRING(255),
         allowNull: false,
     })
-    name : string;
+    name: string;
 
     @Column({
         type: DataType.STRING(10),
         allowNull: false
     })
-    firstReleaseDate : String;
+    firstReleaseDate: string;
 
     @Column({
         type: DataType.BLOB("long"),
         allowNull: true
     })
-    cover? : Buffer
-
-    @BelongsTo(() => GenreModel, {foreignKey : "genreId"})
-    genre : GenreModel;
-    
+    cover?: Buffer;
 
 
+    @ForeignKey(() => GenreModel)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    genreId: number;
+
+    @BelongsTo(() => GenreModel)
+    genre: GenreModel;
+
+    @HasMany(() => RegisterModel)
+    register: RegisterModel[];
 }

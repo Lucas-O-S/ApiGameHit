@@ -65,7 +65,7 @@ export class GameService {
             throw new Error("Genero de jogo não existe ou não foi encontrado")
     }
 
-    private async verifyExist(id : number){
+    async verifyExist(id : number){
         if(!await this.repository.exists(id))
             throw new Error("Jogo não existe ou encontrado");
     }

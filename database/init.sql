@@ -5,7 +5,7 @@ IF NOT EXISTS (
 BEGIN
     CREATE TABLE tb_Role (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        role_Name VARCHAR(255) NOT NULL
+        role_Name VARCHAR(255) UNIQUE NOT NULL
     )
 END
 
@@ -48,7 +48,7 @@ IF NOT EXISTS (
 BEGIN
     CREATE TABLE tb_Genre (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        name VARCHAR(100) NOT NULL
+        name VARCHAR(100) UNIQUE NOT NULL
     );
 
     INSERT INTO tb_Genre (name) VALUES
@@ -74,7 +74,7 @@ IF NOT EXISTS (
 BEGIN
     CREATE TABLE tb_Game (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        name VARCHAR(255) COLLATE Latin1_General_CS_AS NOT NULL,
+        name VARCHAR(255) NOT NULL,
         firstReleaseDate VARCHAR(10) NULL,
         cover VARBINARY(MAX) NULL,
         genreId INT NOT NULL,
@@ -91,7 +91,7 @@ IF NOT EXISTS (
 BEGIN
     CREATE TABLE tb_GameStatus (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        name VARCHAR(50) NOT NULL
+        name VARCHAR(50) UNIQUE NOT NULL
     );
 
     INSERT INTO tb_GameStatus (name) VALUES

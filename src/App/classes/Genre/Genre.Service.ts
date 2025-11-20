@@ -44,4 +44,9 @@ export class GenreService {
         return await this.repository.delete(id);
     }
 
+    async verifyExist(id : number){
+        if(!await this.repository.exists(id))
+            throw new Error("Genero de Jogo não existe ou encontrado");
+    }
+
 } 

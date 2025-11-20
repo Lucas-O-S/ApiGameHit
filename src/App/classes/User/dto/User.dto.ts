@@ -13,7 +13,7 @@ export class UserDto {
     username: string;
 
     @ApiProperty({
-        description : "nome do User",
+        description : "Email do usuario",
         example : "Email@email"
     })
     @IsNotEmpty({message: "Email não pode ser vazio"})
@@ -49,7 +49,6 @@ export class UserDto {
         description: "ID do papel (role) do administrador",
         example: 1
     })
-    @IsNotEmpty({ message: "roleId é obrigatório" })
     @IsInt({ message: "roleId deve ser um número inteiro" })
     @Type(() => Number)
     roleId: number = 2;

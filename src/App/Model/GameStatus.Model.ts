@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { RegisterModel } from "./Register.Model";
 
 @Table({
     tableName: "tb_GameStatus",
@@ -21,4 +22,7 @@ export class GameStatusModel extends Model<GameStatusModel>{
         allowNull: false,
     })
     name : string;
+
+    @HasMany(() => RegisterModel)
+    register: RegisterModel[];
 }

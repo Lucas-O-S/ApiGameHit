@@ -1,4 +1,4 @@
-import { AllowNull, BelongsTo, Column, DataType, Model, Table } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { GenreModel } from "./Genre.Model";
 import { UserModel } from "./User.Model";
 import { GameModel } from "./Game.Model";
@@ -22,19 +22,19 @@ export class RegisterModel extends Model<RegisterModel> {
 
     @Column({
         type: DataType.STRING(255),
-        allowNull: false,
+        allowNull: true,
     })
     review : string;
 
     @Column({
         type: DataType.STRING(10),
-        allowNull: false
+        allowNull: true
     })
     completedDate : String;
 
     @Column({
         type: DataType.STRING(10),
-        allowNull: false
+        allowNull: true
     })
     startedDate : String;
 
@@ -42,16 +42,37 @@ export class RegisterModel extends Model<RegisterModel> {
         type: DataType.INTEGER,
         allowNull: true
     })
-    personalRating
+    personalRating : number
+    
+    @ForeignKey(() => UserModel)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    userId: number;
 
-    @BelongsTo(() => UserModel, {foreignKey : "userId"})
-    user : UserModel;
+    @BelongsTo(() => UserModel)
+    user: UserModel;
+    
+    @ForeignKey(() => GameModel)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    gameId: number;
 
-    @BelongsTo(() => GameModel, {foreignKey : "gameId"})
-    game : GameModel;
+    @BelongsTo(() => GameModel)
+    game: GameModel;
    
-    @BelongsTo(() => GameStatusModel, {foreignKey : "gameStatusId"})
-    gameStatus : GameStatusModel;
+    @ForeignKey(() => GameStatusModel)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false
+    })
+    gameStatusId: number;
+
+    @BelongsTo(() => GameStatusModel)
+    gameStatus: GameStatusModel;
 
 
 }

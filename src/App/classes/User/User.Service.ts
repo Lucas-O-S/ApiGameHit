@@ -90,7 +90,7 @@ export class UserService {
     }
 
     async verifyExist(id : number){
-        if (!(await this.repository.exists(id))) throw new Error("Não existe este registro no banco");
+        if (!(await this.repository.exists(id))) throw new Error("Não existe este Usuario no banco");
     }
 
 

@@ -63,6 +63,10 @@ export class UserModel extends Model<UserModel>{
     })
     roleId : number;
 
+    @HasMany(() => RegisterModel)
+    register: RegisterModel[];
+
+
 
 
 }
