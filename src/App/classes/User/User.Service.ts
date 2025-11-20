@@ -19,10 +19,10 @@ export class UserService {
 
     async update(dto : UserDto, id : number) : Promise<boolean>{
         
+        await this.verifyExist(id);
 
         await this.verifyRepeatedEmail(dto,id);
 
-        if (!(await this.repository.exists(id))) throw new Error("Não existe este registro no banco");
 
         return await this.repository.update(dto, id);
         
@@ -47,7 +47,7 @@ export class UserService {
 
     async delete(id : number) : Promise<Boolean>{
         
-        if (!(await this.repository.exists(id))) throw new Error("Não existe este registro no banco");
+        await this.verifyExist(id);
         
         return await this.repository.delete(id);
     }
@@ -75,6 +75,16 @@ export class UserService {
         
     }
 
+    async changeRole(id: number, roleId : number) : Promise<boolean> {
+        await this.verifyExist(id);
+
+        return this.repository.changeRole(id,roleId)
+
+    }
+
+    async verifyExist(id : number){
+        if (!(await this.repository.exists(id))) throw new Error("Não existe este registro no banco");
+    }
 
 
 }

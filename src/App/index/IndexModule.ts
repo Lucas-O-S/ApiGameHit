@@ -4,6 +4,7 @@ import { PreStartModule } from "src/config/PreStart.module";
 import { GenreModule } from "../classes/Genre/Genre.Module";
 import { GameStatusModule } from "../classes/GameStatus/GameStatus.Module";
 import { GameModule } from "../classes/Games/Game.Module";
+import { RoleModule } from "../classes/Role/Role.Module";
 
 
 
@@ -14,4 +15,5 @@ export const AllModules = [
     GenreModule,
     GameStatusModule,
     GameModule,
+    RoleModule,
 ]

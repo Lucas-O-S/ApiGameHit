@@ -99,4 +99,13 @@ export class UserRepository {
         return (await this.model.findByPk(id)) != null;
     }
 
+    async changeRole(id: number, roleId : number) : Promise<boolean> {
+        const [affectedRows] = await this.model.update(
+            {roleId : roleId},
+            {where : {id : id}}
+        )
+        return affectedRows > 0;
+
+    }
+
 }
