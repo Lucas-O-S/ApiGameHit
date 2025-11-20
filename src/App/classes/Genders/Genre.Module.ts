@@ -5,13 +5,15 @@ import { GenreController } from "./Genre.Controller";
 import { GenreService } from "./Genre.Service";
 import { GenreModel } from "src/App/Model/Genre.Model";
 import { GenreRepository } from "./Genre.Repository";
+import { UserModule } from "../User/User.Module";
 
 
 
 @Module({
     imports: [
         SequelizeModule.forFeature([GenreModel]),
-        forwardRef(()=> AuthModule)
+        forwardRef(()=> AuthModule),
+        forwardRef(()=> UserModule)
         
     ],
     controllers: [GenreController],

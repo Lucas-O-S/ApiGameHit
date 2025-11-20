@@ -1,33 +1,33 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { GenreSchema } from "./Schema/Genre.Schema";
-import { GenreDto } from "./dto/Gender.dto";
+import { GameStatusSchema } from "./Schema/GameStatus.Schema";
+import { GameStatusDto } from "./dto/GameStatus.dto";
 import { ApiResponseInterface } from "src/App/Interface/ApiResponseInterface";
-import { GenreService } from "./Genre.Service";
+import { GameStatusService } from "./GameStatus.Service";
 import { JwtAuthGuard } from "src/App/guards/JwtAuth.Guard";
 import { AdmPermissionGuard } from "src/App/guards/AdmPermission.Guard";
 
 
-@Controller("Genre")
-@ApiTags("Genre")
-@ApiBearerAuth()
+@Controller("GameStatus")
+@ApiTags("GameStatus")
 @UseGuards(JwtAuthGuard)
-export class GenreController{
+@ApiBearerAuth()
+export class GameStatusController{
 
-    constructor(private readonly service : GenreService) {}
+    constructor(private readonly service : GameStatusService) {}
 
     @Post()
-    @ApiBody(GenreSchema)
     @UseGuards(AdmPermissionGuard)
-    @ApiResponse({status: 201, description: "Genero criado com sucesso"})
+    @ApiBody(GameStatusSchema)
+    @ApiResponse({status: 201, description: "Status criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
-    async insert(@Body() dto : GenreDto): Promise<ApiResponseInterface>{
+    async insert(@Body() dto : GameStatusDto): Promise<ApiResponseInterface>{
         try{
             const result = await this.service.insert(dto);
             
             return {
                 status: 201,
-                message: 'Genero criado com sucesso',
+                message: 'Status criado com sucesso',
                 dataUnit: result,
             } ;
         }
@@ -42,12 +42,12 @@ export class GenreController{
     }
 
     @Put(":id")
-    @ApiBody(GenreSchema)
+    @ApiBody(GameStatusSchema)
     @UseGuards(AdmPermissionGuard)
-    @ApiResponse({status: 200, description: "Genero criado com sucesso"})
+    @ApiResponse({status: 200, description: "Status criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async update(
-        @Body() dto : GenreDto,
+        @Body() dto : GameStatusDto,
         @Param("id", ParseIntPipe) id : number,
     ): Promise<ApiResponseInterface>{
         try{
@@ -55,7 +55,7 @@ export class GenreController{
           
             return {
                 status: 200,
-                message: 'Genero atualizado com sucesso',
+                message: 'Status atualizado com sucesso',
                 dataUnit: result,
             } ;
         }
@@ -70,14 +70,14 @@ export class GenreController{
     }
     
     @Get()
-    @ApiResponse({status: 200, description: "Genero criado com sucesso"})
+    @ApiResponse({status: 200, description: "Status criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async getAll(): Promise<ApiResponseInterface>{
         try{
             const result = await this.service.getAll();
             return {
                 status: 200,
-                message: 'Generos buscado com sucesso',
+                message: 'Status buscado com sucesso',
                 dataUnit: result,
             } ;
         }
@@ -93,7 +93,7 @@ export class GenreController{
     
     
     @Get(":id")
-    @ApiResponse({status: 200, description: "Genero criado com sucesso"})
+    @ApiResponse({status: 200, description: "Status criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async get(
         @Param("id", ParseIntPipe) id : number,
@@ -102,7 +102,7 @@ export class GenreController{
             const result = await this.service.get(id);
             return {
                 status: 200,
-                message: 'Genero buscado com sucesso',
+                message: 'Status buscado com sucesso',
                 dataUnit: result,
             } ;
         }
@@ -118,7 +118,7 @@ export class GenreController{
 
     @Delete(":id")
     @UseGuards(AdmPermissionGuard)
-    @ApiResponse({status: 200, description: "Genero criado com sucesso"})
+    @ApiResponse({status: 200, description: "Status criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async delete(
         @Param("id", ParseIntPipe) id : number,
@@ -127,7 +127,7 @@ export class GenreController{
             const result = await this.service.delete(id);
             return {
                 status: 200,
-                message: 'Genero deletado com sucesso',
+                message: 'Status deletado com sucesso',
                 dataUnit: result,
             } ;
         }

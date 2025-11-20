@@ -91,10 +91,10 @@ IF NOT EXISTS (
 BEGIN
     CREATE TABLE tb_GameStatus (
         id INT IDENTITY(1,1) PRIMARY KEY,
-        nome VARCHAR(50) NOT NULL
+        name VARCHAR(50) NOT NULL
     );
 
-    INSERT INTO tb_GameStatus (nome) VALUES
+    INSERT INTO tb_GameStatus (name) VALUES
         ('Concluído'),
         ('Em andamento'),
         ('Aposentado'),
