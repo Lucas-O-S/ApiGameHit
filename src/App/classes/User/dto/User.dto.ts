@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsStrongPassword, Min, MinLength } from "class-validator";
+import { Type } from "class-transformer";
+import { IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, IsStrongPassword, Min, MinLength } from "class-validator";
 
 export class UserDto {
 
@@ -43,5 +44,14 @@ export class UserDto {
     })
     @IsOptional()
     userImage?: Buffer;
+
+    @ApiProperty({
+        description: "ID do papel (role) do administrador",
+        example: 1
+    })
+    @IsNotEmpty({ message: "roleId é obrigatório" })
+    @IsInt({ message: "roleId deve ser um número inteiro" })
+    @Type(() => Number)
+    roleId: number = 2;
 
 }

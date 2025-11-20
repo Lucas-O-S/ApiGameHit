@@ -56,24 +56,24 @@ export class UserRepository {
     }
 
     async verifyAdm (id : number) : Promise<boolean>{
-        return ((await this.model.findByPk(id)).roleId) == 1 
+        return ((await this.model.findByPk(id)).role.id) == 1 
     }
 
-    async verifyFirstAdmExistence () {
-        
-        const admin = await this.model.findOne({ where: { email : "adm@email.com" }});
+    async verifyFirstAdmExistence() {
+        const admin = await this.model.findOne({ where: { email: "adm@email.com" } });
 
         if (!admin) {
-           
+
+
             await this.model.create({
                 username: "ADM",
-                email : "adm@email.com" ,
+                email: "adm@email.com",
                 password: "123456",
-                roleId: 1,
+                roleId: 1
             });
-        
         }
     }
+
 
 
     async verifyRepeatedEmail(dto : UserDto, id = null) : Promise<boolean>{
@@ -99,13 +99,17 @@ export class UserRepository {
         return (await this.model.findByPk(id)) != null;
     }
 
+    
     async changeRole(id: number, roleId : number) : Promise<boolean> {
+        
         const [affectedRows] = await this.model.update(
-            {roleId : roleId},
-            {where : {id : id}}
+            { roleId : roleId },
+            { where: { id: id } }
         )
+
         return affectedRows > 0;
-
     }
-
+        
+        
+        
 }

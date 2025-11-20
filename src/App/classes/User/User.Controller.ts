@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserService } from "./User.Service";
 import { UserDto } from "./dto/User.dto";
@@ -8,6 +8,7 @@ import { UserSchema } from "./Schemas/UserSchema";
 import { JwtAuthGuard } from "src/App/guards/JwtAuth.Guard";
 import { UserIdguard } from "src/App/guards/UserId.Guard";
 import { ImageInterceptorRules } from "src/App/Utils/ImagemFiltters";
+import { AdmPermissionGuard } from "src/App/guards/AdmPermission.Guard";
 
 @Controller("User")
 @ApiTags("User")
@@ -17,7 +18,6 @@ export class UserController {
 
     @Post()
     @ApiConsumes('multipart/form-data')
-    @ApiQuery({ name: 'BuscaImagem', required: false, type: Boolean, description: 'Se falso, não retorna a imagem, padrão é falso' })
     @ApiBody(UserSchema)
     @ApiResponse({status: 201, description: "usuario criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
@@ -66,6 +66,36 @@ export class UserController {
             dto.userImage = file ? Buffer.from(file.buffer) : undefined;
 
             const result = await this.service.update(dto, id);
+
+            return {
+                status: 200,
+                message: 'usuario atualizado com sucesso.',
+                dataUnit: result,
+            } ;
+        }
+        catch(error){
+            return{
+                status: 500,
+                message: 'Erro ao registrar User.',
+                error: error.message || error,
+            }
+
+        }
+    }
+
+    @Patch("changeRole/:id/:roleId")
+    @UseGuards(JwtAuthGuard, AdmPermissionGuard)
+    @ApiBearerAuth()
+    @ApiResponse({status: 200, description: "usuario atualizado com sucesso"})
+    @ApiResponse({status: 500, description: "Erro na requisição"})
+    @UseInterceptors(ImageInterceptorRules("userImage"))
+    async changeRole(
+        @Param("id") id: number,
+        @Param("roleId") roleId: number
+    ) : Promise<ApiResponseInterface> {
+        try{
+
+            const result = await this.service.changeRole(id,roleId);
 
             return {
                 status: 200,

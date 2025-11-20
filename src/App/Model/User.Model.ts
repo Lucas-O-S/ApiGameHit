@@ -1,6 +1,7 @@
-import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import * as bcrypt from "bcrypt";
 import { RegisterModel } from "./Register.Model";
+import { RoleModel } from "./Role.Model";
 
 @Table({
     tableName: "tb_User",
@@ -47,21 +48,21 @@ export class UserModel extends Model<UserModel>{
     password : string;
 
     @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-        defaultValue: 2
-    })
-    roleId: number;
-
-    @Column({
         type: DataType.BLOB("long"),
         allowNull: true
     })
     userImage?: Buffer;
 
-    /*
-    @HasMany(() => RegisterModel)
-    items: RegisterModel[];
-    */
+    @BelongsTo(() => RoleModel, {foreignKey : "roleId"})
+    role : RoleModel;
+
+    
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    roleId : number;
+
+
 
 }

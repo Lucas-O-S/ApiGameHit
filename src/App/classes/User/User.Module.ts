@@ -5,14 +5,15 @@ import { UserService } from "./User.Service";
 import { UserRepository } from "./User.Repository";
 import { UserModel } from "../../Model/User.Model";
 import { AuthModule } from "src/auth/auth.module";
+import { RoleModule } from "../Role/Role.Module";
 
 
 
 @Module({
     imports: [
         SequelizeModule.forFeature([UserModel]),
-        forwardRef(()=> AuthModule)
-        
+        forwardRef(()=> AuthModule),
+        forwardRef(() => RoleModule),
     ],
     controllers: [UserController],
     providers: [UserService, UserRepository],

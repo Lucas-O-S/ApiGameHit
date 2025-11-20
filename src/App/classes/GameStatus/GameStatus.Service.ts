@@ -17,7 +17,7 @@ export class GameStatusService {
 
     async update(dto : GameStatusDto, id : number) : Promise<boolean>{
         if(!await this.repository.exists(id))
-            throw new Error("Genero de jogo não existe ou encontrado");
+            throw new Error("Status não existe ou encontrado");
         
         return await this.repository.update(dto, id);
 
@@ -27,7 +27,7 @@ export class GameStatusService {
         const result = await this.repository.get(id);
         
         if(!result)
-            throw new Error("Genero de jogo não existe ou encontrado");
+            throw new Error("Status não existe ou encontrado");
         
         return result;
     }
@@ -39,7 +39,7 @@ export class GameStatusService {
     
     async delete(id : number) : Promise<boolean>{
         if(!await this.repository.exists(id))
-            throw new Error("Genero de jogo não existe ou encontrado");
+            throw new Error("Status não existe ou encontrado");
 
         return await this.repository.delete(id);
     }

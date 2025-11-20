@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { UserModel } from "./User.Model";
 
 @Table({
     tableName: "tb_Role",
@@ -21,4 +22,8 @@ export class RoleModel extends Model<RoleModel>{
         allowNull: false,
     })
     role_Name : string;
+
+    
+    @HasMany(() => UserModel, { foreignKey: "roleId" })
+    user : UserModel[];
 }

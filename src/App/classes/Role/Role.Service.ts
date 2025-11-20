@@ -17,8 +17,7 @@ export class RoleService {
     }
 
     async update(dto : RoleDto, id : number) : Promise<boolean>{
-        if(!await this.repository.exists(id))
-            throw new Error("Cargo não existe ou encontrado");
+        await this.verifyExist(id);
         
         return await this.repository.update(dto, id);
 
@@ -39,10 +38,16 @@ export class RoleService {
     }
     
     async delete(id : number) : Promise<boolean>{
-        if(!await this.repository.exists(id))
-            throw new Error("Cargo não existe ou encontrado");
+        await this.verifyExist(id);
+
 
         return await this.repository.delete(id);
     }
+
+    async verifyExist(id : number) {
+        if(!await this.repository.exists(id))
+            throw new Error("Cargo não existe ou encontrado");
+    }
+
 
 } 

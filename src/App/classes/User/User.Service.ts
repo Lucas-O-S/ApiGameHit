@@ -3,12 +3,17 @@ import { UserDto } from "./dto/User.dto";
 import { UserRepository } from "./User.Repository";
 import { UserModel } from "src/App/Model/User.Model";
 import { LoginDto } from "src/auth/dto/login.dto";
+import { RoleRepository } from "../Role/Role.Repository";
+import { RoleService } from "../Role/Role.Service";
 
 
 @Injectable()
 export class UserService {
 
-    constructor( private readonly repository : UserRepository ){}
+    constructor(
+        private readonly repository : UserRepository ,
+        private readonly roleService : RoleService
+    ){}
 
     async create(dto : UserDto) : Promise<UserModel>{
         await this.verifyRepeatedEmail(dto);
@@ -77,6 +82,8 @@ export class UserService {
 
     async changeRole(id: number, roleId : number) : Promise<boolean> {
         await this.verifyExist(id);
+
+        await this.roleService.verifyExist(roleId);
 
         return this.repository.changeRole(id,roleId)
 
