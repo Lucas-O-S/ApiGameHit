@@ -1,23 +1,25 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
-import { ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ApiResponseInterface } from "src/App/Interface/ApiResponseInterface";
 import { GameService } from "./Game.Service";
 import { GameStatusSchema } from "../GameStatus/Schema/GameStatus.Schema";
 import { GameDto } from "./dto/GameDto";
 import { GameSchema } from "./Schemas/GameSchema";
 import { ImageInterceptorRules } from "src/App/Utils/ImagemFiltters";
+import { JwtAuthGuard } from "src/App/guards/JwtAuth.Guard";
+import { AdmPermissionGuard } from "src/App/guards/AdmPermission.Guard";
 
 
 @Controller("Game")
 @ApiTags("Game")
-//@UseGuards(JwtAuthGuard)
-// @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class GameController{
 
     constructor(private readonly service : GameService) {}
 
     @Post()
-    // @UseGuards(AdmPermissionGuard)
+    @UseGuards(AdmPermissionGuard)
     @ApiBody(GameSchema)
     @ApiConsumes('multipart/form-data')
     @ApiResponse({status: 201, description: "Jogo criado com sucesso"})
@@ -51,7 +53,7 @@ export class GameController{
 
     @Put(":id")
     @ApiBody(GameStatusSchema)
-    // @UseGuards(AdmPermissionGuard)
+    @UseGuards(AdmPermissionGuard)
     @ApiResponse({status: 200, description: "Jogo criado com sucesso"})
     @ApiResponse({status: 500, description: "Erro na requisição"})
     async update(
