@@ -37,8 +37,6 @@ export class GameModel extends Model<GameModel> {
 
     @BelongsTo(() => GenreModel, {foreignKey : "genreId"})
     genre : GenreModel;
-
-
     
 
 

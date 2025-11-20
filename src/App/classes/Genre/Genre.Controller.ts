@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { GenreSchema } from "./Schema/Genre.Schema";
-import { GenreDto } from "./dto/Gender.dto";
+import { GenreDto } from "./dto/Genre.dto";
 import { ApiResponseInterface } from "src/App/Interface/ApiResponseInterface";
 import { GenreService } from "./Genre.Service";
 import { JwtAuthGuard } from "src/App/guards/JwtAuth.Guard";
@@ -78,7 +78,7 @@ export class GenreController{
             return {
                 status: 200,
                 message: 'Generos buscado com sucesso',
-                dataUnit: result,
+                data: result,
             } ;
         }
         catch(error){

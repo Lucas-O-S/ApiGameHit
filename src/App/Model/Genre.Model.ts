@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { GameModel } from "./Game.Model";
 
 @Table({
     tableName: "tb_Genre",
@@ -21,4 +22,7 @@ export class GenreModel extends Model<GenreModel> {
         allowNull: false,
     })
     name : string;
+
+    @HasMany(() => GameModel, { foreignKey: "genreId" })
+    game : GameModel[];
 }

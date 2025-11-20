@@ -59,7 +59,6 @@ export class UserController {
     async update(
         @Param("id", ParseIntPipe) id : number,
         @Body() dto: UserDto,
-        
         @UploadedFile() file: Express.Multer.File
     ) : Promise<ApiResponseInterface> {
         try{

@@ -1,5 +1,5 @@
 import { GenreModel } from "src/App/Model/Genre.Model";
-import { GenreDto } from "./dto/Gender.dto";
+import { GenreDto } from "./dto/Genre.dto";
 import { GenreRepository } from "./Genre.Repository";
 import { Injectable } from "@nestjs/common";
 

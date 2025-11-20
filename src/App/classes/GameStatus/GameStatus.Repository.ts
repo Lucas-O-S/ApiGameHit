@@ -10,7 +10,7 @@ export class GameStatusRepository {
         @InjectModel(GameStatusModel) private readonly model  : typeof GameStatusModel
     ){}
 
-    async insert(dto : GameStatusDto) : Promise<GenreModel>{
+    async insert(dto : GameStatusDto) : Promise<GameStatusModel>{
         return await this.model.create(dto);
     }
 
@@ -20,12 +20,12 @@ export class GameStatusRepository {
         return affectedRows > 0;
     }
 
-    async get(id : number) : Promise<GenreModel>{
+    async get(id : number) : Promise<GameStatusModel>{
         return await this.model.findByPk(id);
 
     }
 
-    async getAll() : Promise<GenreModel[]>{
+    async getAll() : Promise<GameStatusModel[]>{
         return await this.model.findAll();
     }
 

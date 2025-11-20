@@ -78,7 +78,7 @@ export class GameStatusController{
             return {
                 status: 200,
                 message: 'Status buscado com sucesso',
-                dataUnit: result,
+                data: result,
             } ;
         }
         catch(error){

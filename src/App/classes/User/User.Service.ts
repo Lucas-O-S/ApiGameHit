@@ -11,7 +11,7 @@ export class UserService {
     constructor( private readonly repository : UserRepository ){}
 
     async create(dto : UserDto) : Promise<UserModel>{
-        this.repository.verifyRepeatedEmail(dto);
+        await this.verifyRepeatedEmail(dto);
 
         return await this.repository.create(dto);
         
@@ -19,9 +19,10 @@ export class UserService {
 
     async update(dto : UserDto, id : number) : Promise<boolean>{
         
-        this.repository.verifyRepeatedEmail(dto, id);
 
-        if (this.repository.exists(id)) throw new Error("Não existe este registro no banco");
+        await this.verifyRepeatedEmail(dto,id);
+
+        if (!(await this.repository.exists(id))) throw new Error("Não existe este registro no banco");
 
         return await this.repository.update(dto, id);
         
@@ -46,7 +47,7 @@ export class UserService {
 
     async delete(id : number) : Promise<Boolean>{
         
-        if (this.repository.exists(id)) throw new Error("Não existe este registro no banco");
+        if (!(await this.repository.exists(id))) throw new Error("Não existe este registro no banco");
         
         return await this.repository.delete(id);
     }
@@ -66,6 +67,12 @@ export class UserService {
 
     async verifyFirstAdmExistence () {
         await this.repository.verifyFirstAdmExistence();
+    }
+
+    private async verifyRepeatedEmail(dto : UserDto, id = null){
+        if(await this.repository.verifyRepeatedEmail(dto,id))
+            throw new Error("Email já cadastrado no sistema")
+        
     }
 
 

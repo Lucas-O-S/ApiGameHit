@@ -75,22 +75,24 @@ export class UserRepository {
         }
     }
 
-    async exist(id){
 
-    }
-
-    async verifyRepeatedEmail(dto : UserDto, id = null){
+    async verifyRepeatedEmail(dto : UserDto, id = null) : Promise<boolean>{
 
         if (id){
-            if(await this.model.findOne({where : {email :dto.email}}))
-                throw new Error("Email já cadastrado no sistema")
-        }
-        else
             if(await this.model.findOne({where : {
                 email :dto.email,
                 id: { [Op.not]: id }
             }}))
-                throw new Error("Email já cadastrado no sistema")
+            return true;
+        }
+        else{
+            if(await this.model.findOne({where : {
+                email :dto.email
+            }}))
+            return true;
+        }
+                
+        return false;
     }
 
     async exists (id) : Promise<boolean>{
