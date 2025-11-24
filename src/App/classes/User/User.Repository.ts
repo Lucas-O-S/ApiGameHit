@@ -56,7 +56,9 @@ export class UserRepository {
     }
 
     async verifyAdm (id : number) : Promise<boolean>{
-        return ((await this.model.findByPk(id)).role.id) == 1 
+        
+        console.log((await this.model.findByPk(id)).roleId);
+        return ((await this.model.findByPk(id)).roleId) == 1
     }
 
     async verifyFirstAdmExistence() {
