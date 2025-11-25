@@ -30,12 +30,15 @@ export class RegisterRepository {
             {
                 attributes: this.getImageAttribute(getImage),
                 include : [{
-                    model : GameModel,
-                    attributes : this.getImageAttribute(getImage)
-                     },
-                     {
+                        model : GameModel,
+                        attributes : this.getImageAttribute(getImage),
+                        include : [{
+                            model : GenreModel
+                        }],
+                    },
+                    {
                         model : GameStatusModel
-                     }
+                    }
                 ]
             }
         )
@@ -47,7 +50,10 @@ export class RegisterRepository {
                 attributes: this.getImageAttribute(getImage),
                 include : [{
                     model : GameModel,
-                    attributes : this.getImageAttribute(getImage)
+                    attributes : this.getImageAttribute(getImage),
+                    include : [{
+                        model : GenreModel
+                    }],
                 },
                 {
                     model : GameStatusModel
@@ -73,6 +79,9 @@ export class RegisterRepository {
             include : [{
                 model : GameModel,
                 attributes : this.getImageAttribute(getImage),
+                include : [{
+                    model : GenreModel
+                }],
                 where : {
                     name : { [Op.like] : `%${gameName}%`}
                 }
@@ -93,6 +102,9 @@ export class RegisterRepository {
             include : [{
                 model : GameModel,
                 attributes : this.getImageAttribute(getImage),
+                include : [{
+                    model : GenreModel
+                }],
                 where : {
                     genreId : genreId
                 }
@@ -113,6 +125,9 @@ export class RegisterRepository {
             include : [{
                 model : GameModel,
                 attributes : this.getImageAttribute(getImage),
+                include : [{
+                    model : GenreModel
+                }],
             },
             {
                 model : GameStatusModel,
@@ -132,6 +147,9 @@ export class RegisterRepository {
             include : [{
                 model : GameModel,
                 attributes : this.getImageAttribute(getImage),
+                include : [{
+                    model : GenreModel
+                }],
             },
             {
                 model : GameStatusModel,
