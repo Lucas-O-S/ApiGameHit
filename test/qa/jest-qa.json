@@ -1,0 +1,17 @@
+{
+  "rootDir": "../..",
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "testRegex": "test/qa/.*\\.(spec|e2e-spec)\\.ts$",
+  "transform": { "^.+\\.(t|j)s$": "ts-jest" },
+  "moduleNameMapper": { "^src/(.*)$": "<rootDir>/src/$1" },
+  "testEnvironment": "node",
+  "collectCoverageFrom": [
+    "src/App/classes/Games/Game.Service.ts",
+    "src/App/classes/User/User.Service.ts",
+    "src/auth/auth.service.ts",
+    "src/App/guards/*.ts",
+    "!src/App/guards/RegisterUserPermission.Guard.ts",
+    "test/qa/carga/carga.lib.ts"
+  ],
+  "coverageDirectory": "<rootDir>/coverage-qa"
+}
